@@ -1,25 +1,16 @@
 require 'pry'
-# require_relative 'mastermind_str_outputs.rb'
-# require_relative 'player_commands.rb'
 
-class Mastermind
+
+class Gameplay
 
   attr_accessor :mastercode, :false_eval
 
   def initialize
+    @strings = StringOutputs.new
     @mastercode = 'rrgb'
   end
 
-
-  def generate
-    @mastercode = []
-    palate = ['r','g','b','y']
-
-    4.times do
-      @mastercode << palate.sample
-    end
-
-    @mastercode = @mastercode.join
+  def active?
 
   end
 
@@ -46,13 +37,13 @@ class Mastermind
 
   def element_counter(input)
     guess_ary2 = @guess_ary.dup
-    
+
     guess_ary2.each do
       @mcode_ary.each do |m|
         if guess_ary2[0] == m
           @ce_num += 1
         end
-      guess_ary2.shift
+        guess_ary2.shift
       end
     end
 
@@ -66,10 +57,11 @@ class Mastermind
   def execute(input)
 
     if input == @mastercode
-      "You win!"
+      @strings.win
+
     else
-    false_eval(input)
-     "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
+      false_eval(input)
+      "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
 
     end
 
@@ -77,7 +69,9 @@ class Mastermind
 end
 
 
-# @mm = Mastermind.new
-# @mastercode = @mm.generate
+# @game = Mastermind.new
+# @mastercode = @game.generate
 #
-# puts @mastercode.upcase!
+# puts @mastercode.upcase!require 'pry'
+# require_relative 'mastermind_str_outputs.rb'
+# require_relative 'player_commands.rb'
