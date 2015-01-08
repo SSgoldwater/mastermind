@@ -8,9 +8,28 @@ class Gameplay
   def initialize
     @strings = StringOutputs.new
     @mastercode = 'rrgb'
+    @active = false
+  end
+
+  def start_game
+    @active = !@active
   end
 
   def active?
+    @active
+
+  end
+
+  def execute(input)
+
+    if input == @mastercode
+      @strings.win
+
+    else
+      false_eval(input)
+      "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
+
+    end
 
   end
 
@@ -54,18 +73,6 @@ class Gameplay
 
 
 
-  def execute(input)
-
-    if input == @mastercode
-      @strings.win
-
-    else
-      false_eval(input)
-      "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
-
-    end
-
-  end
 end
 
 

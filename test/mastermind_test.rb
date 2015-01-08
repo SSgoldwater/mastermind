@@ -1,12 +1,13 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require '/Users/Goldwater/Desktop/Development/mastermind/lib/mastermind.rb'
+require_relative '../lib/mastermind.rb'
 
 class GameplayTest < Minitest::Test
   attr_reader :game
 
   def setup
     @game = Gameplay.new
+    @strings = StringOutputs.new
 
   end
 
@@ -57,12 +58,13 @@ class GameplayTest < Minitest::Test
   end
 
   def test_gameplay_is_inactive_upon_file_opening
-    skip
-    runner = Runner.new
-    runner.run
-    gamplay_activity = @game.active?
-    assert_equal "inactive", gameplay_activity
+    refute @game.active?
+  end
 
+  def test_gameplay_initializes_when_play_called
+    refute @game.active?
+    @game.start_game
+    assert @game.active?
   end
 
 

@@ -7,7 +7,6 @@ class MenuTest < MiniTest::Test
 
   def setup
     @menu = Menu.new
-
   end
 
   def test_it_exists
@@ -15,16 +14,12 @@ class MenuTest < MiniTest::Test
   end
 
   def test_menu_is_active_upon_file_opening
-    runner = Runner.new
-    runner.run
-    menu_activity = @menu.active?
-    assert_equal "active" , menu_activity
+    assert @menu.active?
   end
 
   def test_menu_deactivates_for_gameplay
-    skip
-    @game.active?('active')
-    assert_equal
+    @menu.play
+    refute @menu.active?
   end
 
 
