@@ -8,7 +8,11 @@ class StringOutputs
   end
 
   def instructions
-    "These are the instructions, play or quit?"
+    "Instructions:
+    You will be generated a code of four colors.
+    Possible colors are (r)ed, (g)reen, (b)lue and (y)ellow.
+    Your code is four colors long.
+    Would you like to (p)lay or (q)uit?"
   end
 
   def win
@@ -21,6 +25,14 @@ class StringOutputs
 
   def wrong_guess
     "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
+  end
+
+  def too_long
+    "Your guess is too long! Only four letters please."
+  end
+
+  def too_short
+    "Your guess is too short! Four letters please!"
   end
 
   def goodbye

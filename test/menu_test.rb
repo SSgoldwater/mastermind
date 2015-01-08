@@ -4,9 +4,9 @@ require_relative '../lib/menu.rb'
 require_relative '../lib/runner.rb'
 
 class MenuTest < MiniTest::Test
-
   def setup
-    @menu = Menu.new
+    game = Gameplay.new
+    @menu = Menu.new(game)
   end
 
   def test_it_exists
@@ -22,6 +22,28 @@ class MenuTest < MiniTest::Test
     refute @menu.active?
   end
 
+  def test_menu_prints_welcome_message
+    feedback = @menu.open
+    message = feedback[0]
+    assert message.downcase.include?('welcome')
+  end
 
+  def test_it_quits
+    @menu.open
+    feedback = @menu.execute('q')
+    signal = feedback[1]
+    assert_equal :stop, signal
+  end
 
+  def test_it_shows_instructions
+    @menu.open
+    feedback = @menu.execute('i')
+    message = feedback[0]
+    assert message.downcase.include?('instructions')
+  end
+
+  def test_it_can_start_a_game
+    @menu.open
+    feedback = @menu.execute(p)
+  end
 end

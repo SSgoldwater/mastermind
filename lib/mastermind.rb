@@ -1,36 +1,40 @@
 require 'pry'
 
-
 class Gameplay
-
   attr_accessor :mastercode, :false_eval
 
   def initialize
     @strings = StringOutputs.new
-    @mastercode = 'rrgb'
+    @generator = Generator.new
+    @mastercode =  @generator.generate #hardcode for tests 'rrgb'
     @active = false
   end
 
   def start_game
-    @active = !@active
+    @active = true
+    [@strings.begin_game, :go]
   end
 
   def active?
     @active
-
   end
 
   def execute(input)
-
-    if input == @mastercode
-      @strings.win
-
+    case
+    when input == 'q' || input == 'quit'
+      [@strings.goodbye, :stop]
+    when input.length > 4
+      [@strings.too_long, :continue]
+    when input.length < 4
+      [@strings.too_short, :continue]
     else
-      false_eval(input)
-      "'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!"
-
+      if input == @mastercode
+        [@strings.win, :stop]
+      else
+        false_eval(input)
+        ["'#{input.upcase}' has #{@ce_num} correct elements with #{@cp_num} in the correct position, guess again!", :go]
+      end
     end
-
   end
 
   def false_eval(input)
@@ -44,19 +48,16 @@ class Gameplay
   end
 
   def position_counter(input)
-
     comparison_ary = @guess_ary.zip(@mcode_ary)
     comparison_ary.each do |x, y|
       if x == y
         @cp_num += 1
       end
     end
-
   end
 
   def element_counter(input)
     guess_ary2 = @guess_ary.dup
-
     guess_ary2.each do
       @mcode_ary.each do |m|
         if guess_ary2[0] == m
@@ -65,20 +66,5 @@ class Gameplay
         guess_ary2.shift
       end
     end
-
-
   end
-
-
-
-
-
 end
-
-
-# @game = Mastermind.new
-# @mastercode = @game.generate
-#
-# puts @mastercode.upcase!require 'pry'
-# require_relative 'mastermind_str_outputs.rb'
-# require_relative 'player_commands.rb'

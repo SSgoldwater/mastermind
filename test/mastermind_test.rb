@@ -8,7 +8,6 @@ class GameplayTest < Minitest::Test
   def setup
     @game = Gameplay.new
     @strings = StringOutputs.new
-
   end
 
   def test_it_exists
@@ -17,44 +16,55 @@ class GameplayTest < Minitest::Test
 
   def test_it_executes_false_input
     result = @game.execute('nope')
-    assert result.downcase.include?('again')
+    message = result[0]
+    assert message.downcase.include?('again')
   end
 
   def test_false_execution_knows_0_correct_elements
     result = @game.execute('nope')
-    assert result.downcase.include?('0 correct')
+    message = result[0]
+    assert message.downcase.include?('0 correct')
   end
 
   def test_false_execution_knows_1_correct_elements
     result = @game.execute('rope')
-    assert result.downcase.include?('1 correct')
+    message = result[0]
+    assert message.downcase.include?('1 correct')
     result = @game.execute('rgrr')
-    assert result.downcase.include?('1 correct')
+    message = result[0]
+    assert message.downcase.include?('1 correct')
   end
 
   def test_false_execution_knows_3_correct_elements
     result = @game.execute('rrge')
-    assert result.downcase.include?('3 correct')
+    message = result[0]
+    assert message.downcase.include?('3 correct')
   end
 
   def test_it_knows_0_correct_positions
     result = @game.execute('nope')
-    assert result.downcase.include?('0 in the correct position')
+    message = result[0]
+    assert message.downcase.include?('0 in the correct position')
   end
 
   def test_it_knows_1_correct_position
     result = @game.execute('rope')
-    assert result.downcase.include?('1 in the correct position')
+    message = result[0]
+    assert message.downcase.include?('1 in the correct position')
   end
 
   def test_it_knows_2_colors_and_1_position
     result = @game.execute('rbrr')
-    assert result.downcase.include?('2 correct' && '1 in the correct position')
+    message = result[0]
+    assert message.downcase.include?('2 correct' && '1 in the correct position')
   end
 
   def test_it_wins
     result = @game.execute('rrgb')
-    assert result.downcase.include?("win")
+    message = result[0]
+    signal = result[1]
+    assert message.downcase.include?("win")
+    assert_equal :stop, signal
   end
 
   def test_gameplay_is_inactive_upon_file_opening
@@ -66,6 +76,4 @@ class GameplayTest < Minitest::Test
     @game.start_game
     assert @game.active?
   end
-
-
 end
